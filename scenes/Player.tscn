@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://c2p2pyg1cdabd"]
+
+[ext_resource type="Texture2D" uid="uid://60dqera0du01" path="res://assets/avlora/StartRunningLeft6.tres" id="1_5fc6t"]
+[ext_resource type="Texture2D" uid="uid://c1vqw1keuso8w" path="res://assets/avlora/IdleLeft.tres" id="2_6vptl"]
+[ext_resource type="Texture2D" uid="uid://cpvgictnfqnp6" path="res://assets/avlora/IdleLeftEyesClosed.tres" id="3_0cc0y"]
+[ext_resource type="Texture2D" uid="uid://dju1cifgh7k8e" path="res://assets/avlora/StartRunningLeft1.tres" id="4_0jbjs"]
+[ext_resource type="Texture2D" uid="uid://k38vhl56cmb5" path="res://assets/avlora/StartRunningLeft2.tres" id="5_7r1qe"]
+[ext_resource type="Texture2D" uid="uid://b62j60bflm6ya" path="res://assets/avlora/StartRunningLeft3.tres" id="6_2ws0u"]
+[ext_resource type="Texture2D" uid="uid://r7lqqbiqi2fo" path="res://assets/avlora/StartRunningLeft4.tres" id="7_oatmh"]
+[ext_resource type="Texture2D" uid="uid://d1f3i6n4khupr" path="res://assets/avlora/StartRunningLeft5.tres" id="8_8enfu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_phq3a"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_twfgx"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": ExtResource("2_6vptl")
+}, {
+"duration": 0.5,
+"texture": ExtResource("3_0cc0y")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"moveDown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_0jbjs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7r1qe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2ws0u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_oatmh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8enfu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_5fc6t")
+}],
+"loop": true,
+"name": &"moveLeft",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"moveRight",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"moveUp",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_phq3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_5fc6t")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_twfgx")
+animation = &"moveDown"
