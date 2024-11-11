@@ -1,13 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://c2p2pyg1cdabd"]
+[gd_scene load_steps=18 format=3 uid="uid://c2p2pyg1cdabd"]
 
-[ext_resource type="Texture2D" uid="uid://60dqera0du01" path="res://assets/avlora/StartRunningLeft6.tres" id="1_5fc6t"]
+[ext_resource type="Script" path="res://scenes/Player.cs" id="1_vd402"]
 [ext_resource type="Texture2D" uid="uid://c1vqw1keuso8w" path="res://assets/avlora/IdleLeft.tres" id="2_6vptl"]
+[ext_resource type="Texture2D" uid="uid://d2elyr810lxw4" path="res://assets/avlora/IdleLeftCombat.tres" id="2_uuvma"]
 [ext_resource type="Texture2D" uid="uid://cpvgictnfqnp6" path="res://assets/avlora/IdleLeftEyesClosed.tres" id="3_0cc0y"]
 [ext_resource type="Texture2D" uid="uid://dju1cifgh7k8e" path="res://assets/avlora/StartRunningLeft1.tres" id="4_0jbjs"]
 [ext_resource type="Texture2D" uid="uid://k38vhl56cmb5" path="res://assets/avlora/StartRunningLeft2.tres" id="5_7r1qe"]
 [ext_resource type="Texture2D" uid="uid://b62j60bflm6ya" path="res://assets/avlora/StartRunningLeft3.tres" id="6_2ws0u"]
 [ext_resource type="Texture2D" uid="uid://r7lqqbiqi2fo" path="res://assets/avlora/StartRunningLeft4.tres" id="7_oatmh"]
 [ext_resource type="Texture2D" uid="uid://d1f3i6n4khupr" path="res://assets/avlora/StartRunningLeft5.tres" id="8_8enfu"]
+[ext_resource type="Texture2D" uid="uid://bouw4sqos4kqm" path="res://assets/avlora/StartRunningUpLeft6.tres" id="10_dp6ik"]
+[ext_resource type="Texture2D" uid="uid://bwl1ugm11djnp" path="res://assets/avlora/StartRunningUpLeft1.tres" id="11_hj6l8"]
+[ext_resource type="Texture2D" uid="uid://cnch8y4oef87e" path="res://assets/avlora/StartRunningUpLeft2.tres" id="12_7meyx"]
+[ext_resource type="Texture2D" uid="uid://cffihbysfqp7x" path="res://assets/avlora/StartRunningUpLeft3.tres" id="13_p0fsh"]
+[ext_resource type="Texture2D" uid="uid://lqxaent7x8br" path="res://assets/avlora/StartRunningUpLeft4.tres" id="14_6ls8q"]
+[ext_resource type="Texture2D" uid="uid://xpvyg7a6ovj5" path="res://assets/avlora/StartRunningUpLeft5.tres" id="15_btw0i"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_phq3a"]
 
@@ -46,7 +53,7 @@ animations = [{
 "texture": ExtResource("8_8enfu")
 }, {
 "duration": 1.0,
-"texture": ExtResource("1_5fc6t")
+"texture": ExtResource("10_dp6ik")
 }],
 "loop": true,
 "name": &"moveLeft",
@@ -57,21 +64,40 @@ animations = [{
 "name": &"moveRight",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_hj6l8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_7meyx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_p0fsh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_6ls8q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_btw0i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_dp6ik")
+}],
 "loop": true,
 "name": &"moveUp",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_vd402")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_phq3a")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("1_5fc6t")
+[node name="Sprite2DIdleCombat" type="Sprite2D" parent="."]
+texture = ExtResource("2_uuvma")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_twfgx")
-animation = &"moveDown"
+animation = &"idle"
+frame_progress = 0.211322
