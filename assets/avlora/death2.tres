@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dxelgvf2mbejm"]
+
+[ext_resource type="Texture2D" uid="uid://ynxhus65r6dp" path="res://assets/avlora/Avlora.png" id="1_lxmiq"]
+
+[resource]
+atlas = ExtResource("1_lxmiq")
+region = Rect2(28, 49, 23, 30)
