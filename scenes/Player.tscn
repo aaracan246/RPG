@@ -31,13 +31,10 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_06wi5")
 }, {
-"duration": 1.0,
-"texture": ExtResource("2_nmfif")
-}, {
 "duration": 5.0,
 "texture": ExtResource("4_1e0dx")
 }],
-"loop": false,
+"loop": true,
 "name": &"death",
 "speed": 5.0
 }, {
@@ -133,5 +130,6 @@ texture = ExtResource("2_nmfif")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_twfgx")
-animation = &"moveUp"
-frame_progress = 0.0819774
+animation = &"downwardSlash"
+frame = 6
+frame_progress = 1.0
