@@ -8,9 +8,11 @@ public partial class Character : Node2D
 	public string PjName { get; set; }
 	public int MaxHp { get; private set; }
 	public int CurrentHp { get; set; }
+	
 	public int Attack { get; set; }
 	public int Armor { get; set; }
 	public int Speed { get; set; }
+	
 	public bool IsAlive => CurrentHp > 0;
 	public bool IsDefending { get; set; }
 

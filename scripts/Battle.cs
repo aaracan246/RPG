@@ -99,8 +99,8 @@ public partial class Battle : Node2D
 
     private void TakeEnemyTurn()
     {
-        var attacker = _enemyParty.GetRandomAliveMember();
-        var target = _playerParty.GetRandomAliveMember();
+        var attacker = _enemyParty.GetRandomAliveMember(); // Aquí mantener esto
+        var target = _playerParty.GetRandomAliveMember();   // same
 
         if (attacker != null && target != null)
         {

@@ -30,7 +30,7 @@ public partial class Party : Node2D
 		return false;
 	}
 
-	public Character GetRandomAliveMember()
+	public Character GetRandomAliveMember() // Esto para los enemigos
 	{
 		var aliveMembers = Array.FindAll(_members, member => member != null && member.IsAlive);
 		if (aliveMembers.Length > 0)
