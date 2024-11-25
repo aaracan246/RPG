@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://c2p2pyg1cdabd"]
 
-[ext_resource type="Script" path="res://scenes/Player.cs" id="1_vd402"]
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_4dyf1"]
 [ext_resource type="Texture2D" uid="uid://c1vqw1keuso8w" path="res://assets/avlora/IdleLeft.tres" id="2_6vptl"]
 [ext_resource type="Texture2D" uid="uid://c3vbn1jflhx1o" path="res://assets/avlora/death3.tres" id="2_nmfif"]
 [ext_resource type="Texture2D" uid="uid://cpvgictnfqnp6" path="res://assets/avlora/IdleLeftEyesClosed.tres" id="3_0cc0y"]
@@ -117,8 +117,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_vd402")
-Speed = 50.0
+script = ExtResource("1_4dyf1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -130,8 +129,8 @@ texture = ExtResource("2_nmfif")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_twfgx")
-animation = &"downwardSlash"
-frame = 6
-frame_progress = 1.0
+animation = &"idle"
+frame_progress = 0.846454
 
 [node name="Camera2D" type="Camera2D" parent="."]
+z_index = 1

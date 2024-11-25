@@ -1,4 +1,4 @@
-namespace ProyectoInventario.scenes;
+namespace ProyectoInventario.scripts;
 
 
 using Godot;
@@ -7,6 +7,14 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export] public float Speed;
+	
+	private Vector2 _previousPosition;
+	private float _distanceTraveled = 0f;
+	private const float DistanceForEncounter = 10f;
+	private const int Chance = 20;
+	
+	private Random _random = new Random();
+	
 
 	private AnimatedSprite2D _animatedSprite2D;
 
@@ -14,6 +22,8 @@ public partial class Player : CharacterBody2D
 	{
 		// Esto obtiene el nodo AnimatedSprite2D:
 		_animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -31,7 +41,36 @@ public partial class Player : CharacterBody2D
 
 		MoveAndCollide(movement);
 
+		float distance = Position.DistanceTo(_previousPosition);
+		_distanceTraveled += distance;
+		_previousPosition = Position;
+
+		CheckForEncounter();
+			
 		ControlAnimation(direction);
+	}
+
+	private void CheckForEncounter()
+	{
+		if (_distanceTraveled >= DistanceForEncounter)
+		{
+			_distanceTraveled = 0f;
+
+			if (_random.Next(0, 100) < Chance)
+			{
+				TriggerEncounter();
+			}
+		}
+	}
+
+	private void TriggerEncounter()
+	{
+		GD.Print("Encounter started!!!");
+		GetTree().ChangeSceneToFile("res://scripts/Battle.tscn");
+		
+		
+
+
 	}
 
 	private void ControlAnimation(Vector2 direction)

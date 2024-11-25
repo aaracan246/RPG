@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://c3mh2emwgf8cy"]
+[gd_scene load_steps=22 format=4 uid="uid://c3mh2emwgf8cy"]
 
 [ext_resource type="PackedScene" uid="uid://c2p2pyg1cdabd" path="res://scenes/Player.tscn" id="1_d7cpf"]
 [ext_resource type="Texture2D" uid="uid://bqu6nks8gf0yp" path="res://assets/tiles/new assets/RF_Catacombs_v1.0/mainlevbuild.png" id="1_h767n"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bq7y7120m3d0b" path="res://assets/tiles/new assets/RF_Catacombs_v1.0/torch_3.png" id="11_rf4n5"]
 [ext_resource type="Texture2D" uid="uid://b5moyua83dna8" path="res://assets/tiles/new assets/RF_Catacombs_v1.0/torch_4.png" id="12_5r6xl"]
 [ext_resource type="Texture2D" uid="uid://56fi6a8otnal" path="res://assets/tiles/new assets/RF_Catacombs_v1.0/decorative.png" id="12_q2dou"]
+[ext_resource type="Texture2D" uid="uid://4kgftfw57eop" path="res://assets/tiles/torch_1.png" id="13_4r6p6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8dv74"]
 texture = ExtResource("1_h767n")
@@ -1767,10 +1768,24 @@ fill = 1
 fill_from = Vector2(0.504587, 0.504587)
 fill_to = Vector2(0.775229, 0.917431)
 
+[sub_resource type="Gradient" id="Gradient_o3mds"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sl3al"]
+gradient = SubResource("Gradient_o3mds")
+fill = 1
+fill_from = Vector2(0.5, 0.490826)
+fill_to = Vector2(0.761468, 0.90367)
+
 [node name="Main" type="Node2D"]
 
 [node name="Darkness" type="CanvasModulate" parent="."]
-color = Color(0.244776, 0.244776, 0.244776, 1)
+color = Color(0.509286, 0.509286, 0.509286, 1)
+
+[node name="Player" parent="." instance=ExtResource("1_d7cpf")]
+z_index = 1
+position = Vector2(-176.82, -26.525)
+Speed = 120.0
 
 [node name="Map" type="TileMap" parent="."]
 position = Vector2(141, -46)
@@ -1885,11 +1900,6 @@ shadow_color = Color(0, 0, 0, 0.686275)
 texture = SubResource("GradientTexture2D_vmv36")
 texture_scale = 2.0
 
-[node name="Player" parent="." instance=ExtResource("1_d7cpf")]
-z_index = 1
-position = Vector2(-178.62, -23.82)
-Speed = 150.0
-
 [node name="Lighting" type="Node2D" parent="."]
 
 [node name="CandleB01" type="Sprite2D" parent="Lighting"]
@@ -1974,4 +1984,28 @@ energy = 1.91
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.686275)
 texture = SubResource("GradientTexture2D_vmv36")
+texture_scale = 3.0
+
+[node name="Torch6" type="Sprite2D" parent="Lighting"]
+position = Vector2(318, -88)
+texture = ExtResource("13_4r6p6")
+
+[node name="PointLight2D" type="PointLight2D" parent="Lighting/Torch6"]
+position = Vector2(-1, 44)
+scale = Vector2(1.37109, 0.84375)
+color = Color(0.72549, 0.654902, 0.211765, 1)
+energy = 1.91
+texture = SubResource("GradientTexture2D_sl3al")
+texture_scale = 3.0
+
+[node name="Torch7" type="Sprite2D" parent="Lighting"]
+position = Vector2(429, -88)
+texture = ExtResource("12_5r6xl")
+
+[node name="PointLight2D" type="PointLight2D" parent="Lighting/Torch7"]
+position = Vector2(-1, 44)
+scale = Vector2(1.37109, 0.84375)
+color = Color(0.72549, 0.654902, 0.211765, 1)
+energy = 1.91
+texture = SubResource("GradientTexture2D_sl3al")
 texture_scale = 3.0

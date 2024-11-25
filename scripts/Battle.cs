@@ -12,23 +12,33 @@ public partial class Battle : Node2D
 
     private enum BattleState { PlayerTurn, EnemyTurn, WaitingForInput, BattleOver }
     private BattleState _currentState;
+    
 
-    public Battle(Party playerParty, Party enemyParty)
+    public override void _Ready()
     {
-        this._playerParty = playerParty;
-        this._enemyParty = enemyParty;
+        // Esto se ejecutará cuando la escena de batalla se cargue.
         _currentState = BattleState.PlayerTurn;
+        StartBattle();
     }
 
+    
+    // Esto está todo mal 
     public void StartBattle()
     {
-        GD.Print("It begins!");
-        while (_playerParty.IsPartyAlive() && _enemyParty.IsPartyAlive())
+        GD.Print("Battle started!");
+
+        
+        while (_playerParty.IsPartyAlive() && _enemyParty.IsPartyAlive())  // Ciclo de vida de la pelea
         {
             TakeTurn();
         }
 
         GD.Print(_playerParty.IsPartyAlive() ? "You won!" : "You lose...");
+        _currentState = BattleState.BattleOver;
+        if (_currentState == BattleState.BattleOver)
+        {
+            GameManager.Instance.EndBattle();
+        }
     }
 
     private void TakeTurn()
@@ -73,20 +83,20 @@ public partial class Battle : Node2D
                 break;
 
             case 2: // Habilidad (placeholder)
-                GD.Print($"{player.Name} uses a skill");
+                GD.Print($"{player.PjName} uses a skill");
                 break;
 
             case 3: // Protegerse
                 player.Defend();
-                GD.Print($"{player.Name} is defending herself.");
+                GD.Print($"{player.PjName} is defending.");
                 break;
 
             case 4: // Item (placeholder)
-                GD.Print($"{player.Name} uses an item.");
+                GD.Print($"{player.PjName} uses an item.");
                 break;
 
             case 5: // Pasar turno
-                GD.Print($"{player.Name} does nothing.");
+                GD.Print($"{player.PjName} does nothing.");
                 break;
 
             default:
@@ -112,6 +122,13 @@ public partial class Battle : Node2D
     {
         int damage = attacker.CalculateDamage(target.Armor);
         target.ReceiveDamage(damage);
-        GD.Print($"{attacker.Name} attacks {target.Name} and deals {damage} points of damage.");
+        GD.Print($"{attacker.PjName} attacks {target.PjName} and deals {damage} points of damage.");
+    }
+
+    // Método para que GameManager pase las parties a la pelea
+    public void SetParties(Party playerParty, Party enemyParty)
+    {
+        _playerParty = playerParty;
+        _enemyParty = enemyParty;
     }
 }
