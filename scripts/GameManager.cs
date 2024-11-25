@@ -14,7 +14,7 @@ public partial class GameManager : Node2D
 	
 	private Random _random = new Random();
 	
-	[Export] private PackedScene _battleScene = GD.Load<PackedScene>("res://scenes/Battle.tscn");
+	[Export] private PackedScene _battleScene = GD.Load<PackedScene>("scenes/battle.tscn");
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -55,7 +55,7 @@ public partial class GameManager : Node2D
 
 	public void EndBattle()
 	{
-		GetTree().ChangeSceneToFile("res://scenes/Main.tscn");
+		GetTree().ChangeSceneToFile("scenes/Main.tscn");
 	}
 
 	private void GenerateEnemyParty()
@@ -74,7 +74,7 @@ public partial class GameManager : Node2D
 			
 			battleInstance.SetParties(_playerParty, _enemyParty);
 
-			GetTree().ChangeSceneToPacked(_battleScene);
+			GetTree().ChangeSceneToFile("scenes/battle.tscn");
 		}
 		else
 		{

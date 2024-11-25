@@ -8,6 +8,8 @@ public partial class Player : CharacterBody2D
 {
 	[Export] public float Speed;
 	
+	[Signal] public delegate void RespawnedEventHandler();
+	
 	private Vector2 _previousPosition;
 	private float _distanceTraveled = 0f;
 	private const float DistanceForEncounter = 10f;
@@ -66,7 +68,7 @@ public partial class Player : CharacterBody2D
 	private void TriggerEncounter()
 	{
 		GD.Print("Encounter started!!!");
-		GetTree().ChangeSceneToFile("res://scripts/Battle.tscn");
+		GetTree().ChangeSceneToFile("scenes/battle.tscn");
 		
 		
 
@@ -105,6 +107,13 @@ public partial class Player : CharacterBody2D
 				_animatedSprite2D.Play("idle");
 			}
 		}
+	}
+
+
+
+	private void onPlayerDeath()
+	{
+		EmitSignal(nameof(Respawned));
 	}
 }
 

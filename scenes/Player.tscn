@@ -129,8 +129,9 @@ texture = ExtResource("2_nmfif")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_twfgx")
-animation = &"idle"
-frame_progress = 0.846454
+animation = &"downwardSlash"
+frame = 6
+frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 1
