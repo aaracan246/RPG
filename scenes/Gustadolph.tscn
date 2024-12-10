@@ -41,11 +41,11 @@ animations = [{
 [node name="Gustadolph" type="CharacterBody2D"]
 script = ExtResource("1_jo5co")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("7_stk62")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_xiwj3")
 animation = &"DawnwardSlash"
 frame_progress = 0.796027
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("7_stk62")

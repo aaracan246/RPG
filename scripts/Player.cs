@@ -12,8 +12,8 @@ public partial class Player : CharacterBody2D
 	
 	private Vector2 _previousPosition;
 	private float _distanceTraveled = 0f;
-	private const float DistanceForEncounter = 10f;
-	private const int Chance = 20;
+	private const float DistanceForEncounter = 70f;
+	private const int Chance = 5;
 	
 	private Random _random = new Random();
 	

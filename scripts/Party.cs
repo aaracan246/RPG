@@ -20,25 +20,17 @@ public partial class Party : Node2D
 		MemberScenes = new PackedScene[0];
 	}
 
-	public void AddMember(PackedScene scene)
+	public void AddMember(Character character)
 	{
-		var instance = scene.Instantiate();
 		
-		if (instance is Character characterInstance)
+		if (character != null)
 		{
-			if (_members.Count < MaxPartySize) 
-			{
-				_members.Add(characterInstance);
-				GD.Print("Personaje añadido a la party correctamente.");
-			}
-			else
-			{
-				GD.PrintErr("No se puede añadir más personajes. La party está llena.");
-			}
+			_members.Add(character);
+			GD.Print($"Personaje añadido a la party correctamente: {character.PjName}");
 		}
 		else
 		{
-			GD.PrintErr("Error: La escena instanciada no es un Character.");
+			GD.PrintErr("Error: El personaje es nulo.");
 		}
 	}
 

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 
 public partial class Battle : Node2D
 {
+    private Camera2D _camera;
+    
     private Party _playerParty;
     private Party _enemyParty;
     private int _currentTurn = 0;
@@ -27,7 +29,6 @@ public partial class Battle : Node2D
 
     public override void _Ready()
     {
-        
         _teamPlayerNode = GetNodeOrNull<Node2D>("TeamPlayer");
         _teamEnemyNode = GetNodeOrNull<Node2D>("TeamEnemy");
 
@@ -48,43 +49,7 @@ public partial class Battle : Node2D
 
         SetParties(_playerParty, _enemyParty);
     }
-
     
-    private Party CreateParty(bool isPlayerParty)
-    {
-        var party = new Party();
-
-        if (isPlayerParty)
-        {
-            GD.Print("Cargando recurso para el jugador...");
-            var playerScene = GD.Load<PackedScene>("res://scenes/player_party.tscn");
-
-            if (playerScene != null)
-            {
-                party.AddMember(playerScene);
-            }
-            else
-            {
-                GD.PrintErr("Fallo al cargar el recurso de jugador.");
-            }
-        }
-        else
-        {
-            GD.Print("Cargando recurso para el enemigo...");
-            var enemyScene = GD.Load<PackedScene>("res://scenes/enemy_party.tscn");
-
-            if (enemyScene != null)
-            {
-                party.AddMember(enemyScene);
-            }
-            else
-            {
-                GD.PrintErr("Fallo al cargar el recurso de enemigo.");
-            }
-        }
-
-        return party;
-    }
 
     public void SetParties(Party playerParty, Party enemyParty)
 {
@@ -109,12 +74,41 @@ public partial class Battle : Node2D
         GD.Print($"Player party members count: {_playerParty?.Members.Count}");
         GD.Print($"Enemy party members count: {_enemyParty?.Members.Count}");
         
-        LoadTeam(_teamPlayerNode, _playerParty.GetMembers(), false);
-        LoadTeam(_teamEnemyNode, _enemyParty.GetMembers(), true);
+        LoadTeam(_teamPlayerNode, _playerParty.GetMembers(), true);
+        LoadTeam(_teamEnemyNode, _enemyParty.GetMembers(), false);
     }
     else
     {
         GD.PrintErr("TeamPlayer or TeamEnemy nodes are missing.");
+    }
+}
+
+private Party CreateParty(bool isPlayerParty)
+{
+    if (isPlayerParty)
+    {
+        GD.Print("Usando party del jugador inicializada por GameManager...");
+        return GameManager.Instance.PlayerParty;
+    }
+    else
+    {
+        GD.Print("Generando party enemiga...");
+        var enemyParty = new Party();
+
+        // Instanciar correctamente a cada enemigo y asegurarse de inicializarlos con sus respectivos datos
+        var enemy1 = GameManager.Instance.AvloraScene.Instantiate<Character>();
+        enemy1.Initialize("Enemy Avlora", 120, 15, 8, 6); // Inicialización de Avlora
+        enemyParty.AddMember(enemy1);
+
+        var enemy2 = GameManager.Instance.FredericaScene.Instantiate<Character>();
+        enemy2.Initialize("Enemy Frederica", 120, 15, 8, 6); // Inicialización de Frederica
+        enemyParty.AddMember(enemy2);
+        
+        var enemy3 = GameManager.Instance.GustadolphScene.Instantiate<Character>();
+        enemy3.Initialize("Enemy Gustadolph", 120, 15, 8, 6); // Inicialización de Gustadolph
+        enemyParty.AddMember(enemy3);
+
+        return enemyParty;
     }
 }
 
@@ -127,6 +121,9 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip)
         GD.PrintErr("No members available to load into the team.");
         return;
     }
+    
+    const float verticalSpacing = 80.0f; // Espaciado vertical entre personajes
+    Vector2 startPosition = new Vector2(0, 0); // Posición inicial en la línea vertical
 
     for (int i = 0; i < members.Count; i++)
     {
@@ -164,10 +161,12 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip)
         characterInstance.Armor = member.Armor;
         characterInstance.Speed = member.Speed;
 
+        characterInstance.Position = startPosition + new Vector2(0, i * verticalSpacing);
+        
         container.AddChild(characterInstance);
-        characterInstance.Position = new Vector2(i * 100, 0);
         
         var spriteNode = characterInstance.GetNodeOrNull<Sprite2D>("Sprite2D");
+        
         if (spriteNode == null)
         {
             GD.PrintErr($"Could not find 'Sprite2D' node for {member.PjName}. Check the scene structure.");
@@ -177,7 +176,7 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip)
             if (flip)
             {
                 GD.Print($"Flipping enemy sprite: {member.PjName}");
-                spriteNode.FlipH = true;
+                spriteNode.FlipH = true; 
             }
             else
             {

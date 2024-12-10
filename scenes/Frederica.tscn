@@ -42,12 +42,12 @@ animations = [{
 [node name="Frederica" type="CharacterBody2D"]
 script = ExtResource("1_re26w")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_1w863")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_6j278")
 animation = &"SpellCast"
 frame = 4
 frame_progress = 1.0
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("6_1w863")
