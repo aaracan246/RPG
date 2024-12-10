@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://db1kr6x3ix6ts"]
+
+[ext_resource type="PackedScene" uid="uid://dej8qpej4oqgk" path="res://scenes/Avlora.tscn" id="1_jxvev"]
+[ext_resource type="Script" path="res://scripts/Character.cs" id="1_suj3s"]
+[ext_resource type="PackedScene" uid="uid://bjlf3afd73n7c" path="res://scenes/Frederica.tscn" id="2_bj48y"]
+[ext_resource type="PackedScene" uid="uid://dpbxk28ghpxbj" path="res://scenes/Gustadolph.tscn" id="3_wpijg"]
+
+[node name="PlayerParty" type="Node2D"]
+script = ExtResource("1_suj3s")
+
+[node name="Avlora" parent="." instance=ExtResource("1_jxvev")]
+position = Vector2(143, 99)
+
+[node name="Frederica" parent="." instance=ExtResource("2_bj48y")]
+position = Vector2(135, 161)
+
+[node name="Gustadolph" parent="." instance=ExtResource("3_wpijg")]
+position = Vector2(128, 233)

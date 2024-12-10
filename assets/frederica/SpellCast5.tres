@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dkxr2yonyxw1v"]
+
+[ext_resource type="Texture2D" uid="uid://curqwqa8uljfw" path="res://assets/frederica/frederica.png" id="1_fdafx"]
+
+[resource]
+atlas = ExtResource("1_fdafx")
+region = Rect2(476, 2608, 35, 41)

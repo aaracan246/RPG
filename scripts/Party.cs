@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ProyectoInventario.scripts;
 
 using Godot;
@@ -5,22 +8,45 @@ using System;
 
 public partial class Party : Node2D
 {
-	private Character[] _members;
+	private PackedScene[] _memberScenes;
+	public PackedScene[] MemberScenes { get; set; }
+	
+	private List<Character> _members = new List<Character>();
+	public List<Character> Members => new List<Character>(_members);
 	private const int MaxPartySize = 4;
 
 	public Party()
 	{
-		_members = new Character[MaxPartySize];
+		MemberScenes = new PackedScene[0];
 	}
 
-	public void AddMember(Character character, int position)
+	public void AddMember(PackedScene scene)
 	{
-		if (position >= 0 && position < MaxPartySize)
+		var instance = scene.Instantiate();
+		
+		if (instance is Character characterInstance)
 		{
-			_members[position] = character;
+			if (_members.Count < MaxPartySize) 
+			{
+				_members.Add(characterInstance);
+				GD.Print("Personaje añadido a la party correctamente.");
+			}
+			else
+			{
+				GD.PrintErr("No se puede añadir más personajes. La party está llena.");
+			}
+		}
+		else
+		{
+			GD.PrintErr("Error: La escena instanciada no es un Character.");
 		}
 	}
 
+	public List<Character> GetMembers()
+	{
+		return _members.Where(member => member != null).ToList();
+	}
+	
 	public bool IsPartyAlive()
 	{
 		foreach (Character member in _members)
@@ -30,14 +56,17 @@ public partial class Party : Node2D
 		return false;
 	}
 
-	public Character GetRandomAliveMember() // Esto para los enemigos
+	public Character GetRandomAliveMember()
 	{
-		var aliveMembers = Array.FindAll(_members, member => member != null && member.IsAlive);
-		if (aliveMembers.Length > 0)
+		var aliveMembers = _members.Where(member => member != null && member.IsAlive).ToList();
+
+		if (aliveMembers.Count > 0)
 		{
-			return aliveMembers[GD.Randi() % aliveMembers.Length]; // Esto da un número dentro del array | Randi -> Random
+			int randomIndex = (int)(GD.Randi() % (uint)aliveMembers.Count);
+			return aliveMembers[randomIndex];
 		}
 
+		GD.PrintErr("No alive members found!");
 		return null;
 	}
 }

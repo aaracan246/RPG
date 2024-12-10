@@ -1,0 +1,64 @@
+[gd_scene load_steps=13 format=3 uid="uid://dej8qpej4oqgk"]
+
+[ext_resource type="Script" path="res://scripts/Character.cs" id="1_pt84v"]
+[ext_resource type="Texture2D" uid="uid://eqksfnymo0vm" path="res://assets/avlora/DownwardSlash1.tres" id="1_pwmxm"]
+[ext_resource type="Texture2D" uid="uid://c6rek3m4spye" path="res://assets/avlora/DownwardSlash2.tres" id="2_wtxk5"]
+[ext_resource type="Texture2D" uid="uid://dcda7q0bgk8pu" path="res://assets/avlora/DownwardSlash3.tres" id="3_kl540"]
+[ext_resource type="Texture2D" uid="uid://cjc30k5hncltw" path="res://assets/avlora/DownwardSlash4.tres" id="4_evxka"]
+[ext_resource type="Texture2D" uid="uid://cmyhwa0ud0ill" path="res://assets/avlora/DownwardSlash5.tres" id="5_17w12"]
+[ext_resource type="Texture2D" uid="uid://80ixivf2j7ck" path="res://assets/avlora/DownwardSlash6.tres" id="6_5mlh8"]
+[ext_resource type="Texture2D" uid="uid://cg3m5kgv7comm" path="res://assets/avlora/DownwardSlash7.tres" id="7_tl570"]
+[ext_resource type="Texture2D" uid="uid://d2elyr810lxw4" path="res://assets/avlora/IdleLeftCombat.tres" id="8_b52hi"]
+[ext_resource type="Texture2D" uid="uid://ynxhus65r6dp" path="res://assets/avlora/Avlora.png" id="9_dqkm4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8fhbc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pwmxm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_wtxk5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kl540")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_evxka")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_17w12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5mlh8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tl570")
+}],
+"loop": true,
+"name": &"DownwardSlash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_b52hi")
+}],
+"loop": true,
+"name": &"IdleCombat",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhlwj"]
+atlas = ExtResource("9_dqkm4")
+region = Rect2(148, 1061, 46, 38)
+
+[node name="Avlora" type="CharacterBody2D"]
+script = ExtResource("1_pt84v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_8fhbc")
+animation = &"IdleCombat"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_xhlwj")

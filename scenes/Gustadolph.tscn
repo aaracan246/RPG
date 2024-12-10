@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://dpbxk28ghpxbj"]
+
+[ext_resource type="Script" path="res://scripts/Character.cs" id="1_jo5co"]
+[ext_resource type="Texture2D" uid="uid://deiqsxc7nk5u" path="res://assets/gustadolph/DownwardSlash1.tres" id="1_knils"]
+[ext_resource type="Texture2D" uid="uid://unt6hp4ovop5" path="res://assets/gustadolph/DownwardSlash2.tres" id="2_gux7k"]
+[ext_resource type="Texture2D" uid="uid://c66qwjqcx3jnd" path="res://assets/gustadolph/DownwardSlash3.tres" id="3_5l2du"]
+[ext_resource type="Texture2D" uid="uid://ci7mwvvp6lp7p" path="res://assets/gustadolph/DownwardSlash4.tres" id="4_j26yv"]
+[ext_resource type="Texture2D" uid="uid://csk40tybh4jyu" path="res://assets/gustadolph/DownwardSlash5.tres" id="5_38bjk"]
+[ext_resource type="Texture2D" uid="uid://c5hkfjcka3sw7" path="res://assets/gustadolph/DownwardSlash6.tres" id="6_ajfs0"]
+[ext_resource type="Texture2D" uid="uid://de70r82hd7b2p" path="res://assets/gustadolph/DownwardSlash7.tres" id="7_stk62"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xiwj3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_knils")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_gux7k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5l2du")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_j26yv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_38bjk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ajfs0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_stk62")
+}],
+"loop": true,
+"name": &"DawnwardSlash",
+"speed": 6.0
+}]
+
+[node name="Gustadolph" type="CharacterBody2D"]
+script = ExtResource("1_jo5co")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_xiwj3")
+animation = &"DawnwardSlash"
+frame_progress = 0.796027
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("7_stk62")

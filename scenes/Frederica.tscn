@@ -1,3 +1,53 @@
-[gd_scene format=3 uid="uid://bjlf3afd73n7c"]
+[gd_scene load_steps=9 format=3 uid="uid://bjlf3afd73n7c"]
+
+[ext_resource type="Texture2D" uid="uid://nw7kkkme6rmb" path="res://assets/frederica/CombatIdle1.tres" id="1_loood"]
+[ext_resource type="Script" path="res://scripts/Character.cs" id="1_re26w"]
+[ext_resource type="Texture2D" uid="uid://crkrjravsccn0" path="res://assets/frederica/SpellCast1.tres" id="2_vuq4b"]
+[ext_resource type="Texture2D" uid="uid://ctlpyy201cbfi" path="res://assets/frederica/SpellCast2.tres" id="3_2l4d7"]
+[ext_resource type="Texture2D" uid="uid://dlxq74d214e7x" path="res://assets/frederica/SpellCast3.tres" id="4_fpgf8"]
+[ext_resource type="Texture2D" uid="uid://dhouhps23rmve" path="res://assets/frederica/SpellCast4.tres" id="5_1jn05"]
+[ext_resource type="Texture2D" uid="uid://dkxr2yonyxw1v" path="res://assets/frederica/SpellCast5.tres" id="6_1w863"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6j278"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_loood")
+}],
+"loop": true,
+"name": &"CombatIdle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vuq4b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2l4d7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fpgf8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1jn05")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1w863")
+}],
+"loop": false,
+"name": &"SpellCast",
+"speed": 5.0
+}]
 
 [node name="Frederica" type="CharacterBody2D"]
+script = ExtResource("1_re26w")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_6j278")
+animation = &"SpellCast"
+frame = 4
+frame_progress = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_1w863")

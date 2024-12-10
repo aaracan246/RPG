@@ -14,9 +14,14 @@ public partial class GameManager : Node2D
 	
 	private Random _random = new Random();
 	
-	[Export] private PackedScene _battleScene = GD.Load<PackedScene>("scenes/battle.tscn");
-	
-	
+	[Export] private PackedScene _battleScene = GD.Load<PackedScene>("res://scenes/battle.tscn");
+
+	// PJs
+	[Export] private PackedScene _avloraScene = GD.Load<PackedScene>("res://scenes/Avlora.tscn");
+	[Export] private PackedScene _fredericaScene = GD.Load<PackedScene>("res://scenes/Frederica.tscn");
+	[Export] private PackedScene _gustadolphScene = GD.Load<PackedScene>("res://scenes/Gustadolph.tscn");
+
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -35,9 +40,11 @@ public partial class GameManager : Node2D
 	private void InitPlayerParty() {
 		
 		_playerParty = new Party();
-		_playerParty.AddMember(new Character("Avlora", 100, 8, 20), 0);
-		_playerParty.AddMember(new Character("Gustadolph", 100, 15, 10), 1);
-		_playerParty.AddMember(new Character("Frederica", 50, 20, 5), 2);
+
+		
+		_playerParty.AddMember(_avloraScene);
+		_playerParty.AddMember(_fredericaScene);
+		_playerParty.AddMember(_gustadolphScene);
 		
 	}
 
@@ -61,9 +68,13 @@ public partial class GameManager : Node2D
 	private void GenerateEnemyParty()
 	{
 		_enemyParty = new Party();
-		_enemyParty.AddMember(new Character("Captain", 100, 10, 8), 0);
-		_enemyParty.AddMember(new Character("Grunt1", 40, 10, 5), 1);
-		_enemyParty.AddMember(new Character("Grunt2", 40, 10, 5), 2);
+		//_enemyParty.AddMember(new Character("Captain", 100, 10, 8), 0);
+		//_enemyParty.AddMember(new Character("Grunt1", 40, 10, 5), 1);
+		//_enemyParty.AddMember(new Character("Grunt2", 40, 10, 5), 2);
+		
+		_enemyParty.AddMember(_avloraScene);
+		_enemyParty.AddMember(_fredericaScene);
+		_enemyParty.AddMember(_gustadolphScene);
 	}
 
 	private void StartBattle()
@@ -71,14 +82,22 @@ public partial class GameManager : Node2D
 		if (_battleScene != null)
 		{
 			var battleInstance = _battleScene.Instantiate<Battle>();
-			
-			battleInstance.SetParties(_playerParty, _enemyParty);
 
-			GetTree().ChangeSceneToFile("scenes/battle.tscn");
+			if (battleInstance != null)
+			{
+				battleInstance.SetParties(_playerParty, _enemyParty);
+				
+				GetTree().Root.AddChild(battleInstance); 
+				GetTree().SetCurrentScene(battleInstance);
+			}
+			else
+			{
+				GD.PrintErr("Error al instanciar la batalla.");
+			}
 		}
 		else
 		{
-			GD.Print("There is no battle scene assigned.");
+			GD.PrintErr("No hay una escena de batalla asignada en GameManager.");
 		}
 	}
 }
