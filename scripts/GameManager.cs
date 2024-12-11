@@ -47,7 +47,7 @@ public partial class GameManager : Node2D
 		
 		_playerParty = new Party();
 
-		// Instancia y configura los personajes antes de añadirlos a la party
+		// Instancia los personajes antes de añadirlos a la party
 		var avlora = _avloraScene.Instantiate<Character>();
 		avlora.Initialize("Avlora", 150, 20, 10, 5); 
 
@@ -57,7 +57,7 @@ public partial class GameManager : Node2D
 		var gustadolph = _gustadolphScene.Instantiate<Character>();
 		gustadolph.Initialize("Gustadolph", 120, 18, 8, 6); 
 
-		// Añade los personajes configurados a la party
+		// Añade los personajes a la party
 		_playerParty.AddMember(avlora);
 		_playerParty.AddMember(frederica);
 		_playerParty.AddMember(gustadolph);

@@ -46,7 +46,6 @@ script = ExtResource("1_re26w")
 texture = ExtResource("6_1w863")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
 sprite_frames = SubResource("SpriteFrames_6j278")
 animation = &"SpellCast"
 frame = 4

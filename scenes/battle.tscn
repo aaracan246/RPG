@@ -14926,3 +14926,9 @@ position = Vector2(536, 61)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 160)
+
+[node name="ButtonContainer" type="VBoxContainer" parent="."]
+offset_left = 304.0
+offset_top = 348.0
+offset_right = 344.0
+offset_bottom = 388.0

@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpbxk28ghpxbj"]
+[gd_scene load_steps=9 format=3 uid="uid://dpbxk28ghpxbj"]
 
 [ext_resource type="Script" path="res://scripts/Character.cs" id="1_jo5co"]
-[ext_resource type="Texture2D" uid="uid://deiqsxc7nk5u" path="res://assets/gustadolph/DownwardSlash1.tres" id="1_knils"]
 [ext_resource type="Texture2D" uid="uid://unt6hp4ovop5" path="res://assets/gustadolph/DownwardSlash2.tres" id="2_gux7k"]
 [ext_resource type="Texture2D" uid="uid://c66qwjqcx3jnd" path="res://assets/gustadolph/DownwardSlash3.tres" id="3_5l2du"]
 [ext_resource type="Texture2D" uid="uid://ci7mwvvp6lp7p" path="res://assets/gustadolph/DownwardSlash4.tres" id="4_j26yv"]
@@ -13,7 +12,7 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_knils")
+"texture": ExtResource("7_stk62")
 }, {
 "duration": 1.0,
 "texture": ExtResource("2_gux7k")
@@ -45,7 +44,6 @@ script = ExtResource("1_jo5co")
 texture = ExtResource("7_stk62")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
 sprite_frames = SubResource("SpriteFrames_xiwj3")
 animation = &"DawnwardSlash"
-frame_progress = 0.796027
+frame_progress = 0.0453958

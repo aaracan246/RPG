@@ -34,19 +34,20 @@ public partial class Party : Node2D
 		}
 	}
 
-	public List<Character> GetMembers()
+	public void RemoveMember(Character member)
 	{
-		return _members.Where(member => member != null).ToList();
+		if (_members.Contains(member))
+		{
+			_members.Remove(member);
+		}
 	}
 	
 	public bool IsPartyAlive()
 	{
-		foreach (Character member in _members)
-		{
-			if (member != null && member.IsAlive) { return true; }
-		}
-		return false;
+		return _members.Any(member => member.IsAlive);
 	}
+
+	public List<Character> GetMembers() { return new List<Character>(_members); }
 
 	public Character GetRandomAliveMember()
 	{
