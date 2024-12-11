@@ -32,8 +32,8 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_stk62")
 }],
-"loop": true,
-"name": &"DawnwardSlash",
+"loop": false,
+"name": &"DownwardSlash",
 "speed": 6.0
 }]
 
@@ -45,5 +45,6 @@ texture = ExtResource("7_stk62")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xiwj3")
-animation = &"DawnwardSlash"
-frame_progress = 0.0453958
+animation = &"DownwardSlash"
+frame = 6
+frame_progress = 1.0

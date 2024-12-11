@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://h7gyty17183o"]
+
+[ext_resource type="Script" path="res://Node2dTweenPrueba.cs" id="1_wffe6"]
+[ext_resource type="Texture2D" uid="uid://ynxhus65r6dp" path="res://assets/avlora/Avlora.png" id="2_v32hk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xtssw"]
+atlas = ExtResource("2_v32hk")
+region = Rect2(4, 4, 20, 37)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_wffe6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_xtssw")

@@ -293,73 +293,61 @@ private void TakeTurn()
         }
     }
     
-   private void StartAttackAnimation(Character attacker, Character target)
+    private void StartAttackAnimation(Character attacker, Character target)
     {
-        
-        Vector2 attackerOriginalPosition = attacker.Position;
-        Vector2 targetPosition = target.Position;
+        Vector2 attackerOriginalPosition = attacker.GlobalPosition;
+        Vector2 targetPosition = target.GlobalPosition;
 
-        
-        if (attacker.Name == "Gustadolph" || attacker.Name == "Avlora") {
-            var tween = GetTree().CreateTween();
-
-            // Movimiento hacia el enemigo
-            tween.TweenProperty(attacker, "position", targetPosition, 0.5f).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-
-            // Al llegar al enemigo, ejecutamos la animación del ataque
-            tween.TweenCallback(Callable.From(() =>
-            {
-                // Accedemos al AnimatedSprite2D y reproducimos la animación
-                var animatedSprite = attacker.GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-                if (animatedSprite != null)
-                {
-                    animatedSprite.Play("DownwardSlash"); 
-                }
-                else
-                {
-                    GD.PrintErr("No se encontró AnimatedSprite2D en el personaje.");
-                }
-
-                // Aplicamos el daño al enemigo
-                int damage = attacker.CalculateDamage(target.Armor);
-                target.ReceiveDamage(damage);
-                GD.Print($"{attacker.Name} attacked {target.Name} for {damage} damage!");
-
-               
-                if (!target.IsAlive)
-                {
-                    GD.Print($"{target.Name} has been defeated!");
-                    _enemyParty.RemoveMember(target); // Eliminar al enemigo derrotado
-                }
-            }));
-
-            // Vuelve a la posición (?)
-            tween.TweenProperty(attacker, "position", attackerOriginalPosition, 0.5f).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-        }
-        else if (attacker.Name == "Frederica") // Si es Frederica, no se mueve y solo lanza el hechizo
+        // Nodo que queremos mover
+        var nodeToMove = attacker.GetNodeOrNull<Sprite2D>("Sprite2D");
+        if (nodeToMove == null)
         {
-            
+            GD.PrintErr("No se encontró AnimatedSprite2D en el personaje.");
+            return;
+        }
+
+        nodeToMove.Position = targetPosition;
+        GD.Print("Nodo movido con éxito!");
+        // Crear el Tween
+        var tween = GetTree().CreateTween();
+
+        // Movimiento hacia el objetivo
+        tween.TweenProperty(nodeToMove, "position", targetPosition, 0.5f);
+            //.SetTrans(Tween.TransitionType.Sine)
+           // .SetEase(Tween.EaseType.InOut);
+
+        // Ejecutar ataque al llegar
+        tween.TweenCallback(Callable.From(() =>
+        {
             var animatedSprite = attacker.GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
             if (animatedSprite != null)
             {
-                animatedSprite.Play("CastSpell"); // Ejecuta la animación de hechizo
+                animatedSprite.Play("DownwardSlash");
             }
             else
             {
                 GD.PrintErr("No se encontró AnimatedSprite2D en el personaje.");
             }
 
+            // Aplicar daño
             int damage = attacker.CalculateDamage(target.Armor);
             target.ReceiveDamage(damage);
-            GD.Print($"{attacker.Name} cast a spell on {target.Name} for {damage} damage!");
-            
+            GD.Print($"{attacker.Name} attacked {target.Name} for {damage} damage!");
+
             if (!target.IsAlive)
             {
                 GD.Print($"{target.Name} has been defeated!");
                 _enemyParty.RemoveMember(target); // Eliminar al enemigo derrotado
             }
-        }
-        EndTurn();
+        }));
+
+        // Regresar a la posición original
+        tween.TweenProperty(nodeToMove, "global_position", attackerOriginalPosition, 0.5f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.InOut);
+
+        // Finalizar el turno después de completar el movimiento
+        tween.TweenCallback(Callable.From(() => EndTurn()));
     }
     private void EndTurn()
     {
