@@ -14927,8 +14927,19 @@ position = Vector2(536, 61)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 160)
 
-[node name="ButtonContainer" type="VBoxContainer" parent="."]
-offset_left = 304.0
-offset_top = 348.0
-offset_right = 344.0
-offset_bottom = 388.0
+[node name="Attack" type="Button" parent="."]
+offset_left = 25.0
+offset_top = 279.0
+offset_right = 100.0
+offset_bottom = 310.0
+text = "  Attack  "
+
+[node name="Flee" type="Button" parent="."]
+offset_left = 116.0
+offset_top = 279.0
+offset_right = 189.0
+offset_bottom = 310.0
+text = "    Flee    "
+
+[connection signal="pressed" from="Attack" to="." method="_on_StartAttackAnimation"]
+[connection signal="pressed" from="Flee" to="." method="_on_flee_pressed"]

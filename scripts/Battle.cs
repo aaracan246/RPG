@@ -1,4 +1,4 @@
-using System.Linq;
+ using System.Linq;
 
 namespace ProyectoInventario.scripts;
 
@@ -16,7 +16,17 @@ public partial class Battle : Node2D
 
     private Node2D _teamPlayerNode;
     private Node2D _teamEnemyNode;
-
+    
+    private Random _random = new Random();
+    private int _chance = 100;   // % para huir de la pelea
+    
+    private double _moveTimer = .4f;
+    private double _moveTimerReset = .4f;
+    private bool _moving = false;
+    private double _attackTimer = .2f;
+    private double _attackTimerReset = .2f;
+    private bool _attacking = false;
+    
     private enum BattleState
     {
         PlayerTurn,
@@ -124,9 +134,7 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip) // E
 
     const float verticalSpacing = 80.0f; 
     Vector2 startPosition = new Vector2(0, 0); 
-
-    var vboxContainer = GetNode<Control>("ButtonContainer"); // Nodo para botones
-
+    
     for (int i = 0; i < members.Count; i++)
     {
         var member = members[i];
@@ -163,18 +171,7 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip) // E
 
         characterInstance.Position = startPosition + new Vector2(0, i * verticalSpacing);
         container.AddChild(characterInstance);
-
-        // Botón que ataca a este pj
-        var attackButton = new Button();
-        attackButton.Text = $"Attack {member.PjName}";
-        attackButton.Name = $"Button_{member.PjName}";
-        vboxContainer.AddChild(attackButton);
         
-        attackButton.Pressed += () =>
-        {
-            StartAttackAnimation(_playerParty.Members[_currentTurn]);
-        };
-
         var spriteNode = characterInstance.GetNodeOrNull<Sprite2D>("Sprite2D");
 
         if (spriteNode == null)
@@ -232,48 +229,59 @@ private void TakeTurn()
     // Funciones de combate:
     
     
-    public void ProcessTurn()
+    public void _on_StartAttackAnimation(Character attacker, double delta)
     {
-        GD.Print($"Processing turn for player {_currentTurn}");
-    
-        // Esperar a la entrada del jugador
-        ShowTargetButtons();
-    }
-    
-    private void ShowTargetButtons()
-    {
-        for (int i = 0; i < _enemyParty.Members.Count; i++)
+        // GD.Print("COMO UNA CASA");
+        // var sprite = attacker.GetNode<Sprite2D>("Sprite2D");
+        // var tween = CreateTween();
+        // tween.TweenProperty(sprite, "position", new Vector2(200, 0), 1.0f);
+        // attacker.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("DownwardSlash");
+        // GD.Print("COMO CAMARON");
+        
+        var attackButton = GetNode<Button>("Attack"); // Botón ataque
+
+
+        if (attackButton.IsPressed())
         {
-            var button = GetNode<Button>($"TargetButton_Enemy{i+1}");
-            button.Visible = true; // Muestra el botón correspondiente
+            _moving = true;
+            var sprite = GetNode<AnimatedSprite2D>("Sprite2D");
+            var tween = CreateTween();
+            tween.TweenProperty(sprite, "position", new Vector2(200, 0), .4f);
+            if (_moving)
+            {
+				
+                _moveTimer -= delta;
+                if (_moveTimer <= 0)
+                {
+                    _moving = false;
+                    _moveTimer = _moveTimerReset;
+                }
+            }
+            _attacking = true;
+            if (_attacking)
+            {
+                var animatedSprite = GetNode<AnimatedSprite2D>("Sprite2D");
+                animatedSprite.Play("DownwardSlash");
+                _attackTimer -= delta;
+                if (_attackTimer <= 0)
+                {
+                    _attacking = false;
+                    _attackTimer = _attackTimerReset;
+                }
+            }
+            tween.TweenProperty(sprite, "position", new Vector2(-200, 0), 0.4f);
+			
         }
     }
-    
-    private void HideTargetButtons()
+
+    public void FleeCombat()
     {
-        for (int i = 0; i < _enemyParty.Members.Count; i++)
-        {
-            var button = GetNode<Button>($"TargetButton_Enemy{i+1}");
-            button.Visible = false; // Oculta el botón después de seleccionar
-        }
-    }
-    
-    public void OnTargetButtonPressed(int enemyIndex)
-    {
-        HideTargetButtons(); // Oculta los botones tras la selección
-        var attacker = _playerParty.Members[_currentTurn];
-        var target = _enemyParty.Members[enemyIndex];
-        StartAttackAnimation(attacker);
+        var fleeButton = GetNode<Button>("Flee"); // Botón huir
+        
+        if (fleeButton.IsPressed()) { if (_random.Next(0, 100) < _chance) { GetTree().ChangeSceneToFile("res://scenes/Main.tscn"); }}
     }
 
-    public void StartAttackAnimation(Character attacker)
-    {
-        var sprite = attacker.GetNode<Sprite2D>("Sprite2D");
-        var tween = CreateTween();
-        tween.TweenProperty(sprite, "position", new Vector2(200, 200), 1.0f);
-    }
-
-        private void EndTurn()
+    private void EndTurn()
     {
         if (_enemyParty.IsPartyAlive())
         {
@@ -318,24 +326,10 @@ private void TakeTurn()
         }
     }
     
-    private void ShowDamageText(Character target, int damage)
+    private void _on_flee_pressed()
     {
-        var damageLabel = new Label
-        {
-            Text = $"-{damage}",
-            Modulate = new Color(1, 0, 0), // Texto rojo
-            Scale = new Vector2(2, 2) // Escala grande
-        };
-        
-        damageLabel.Position = target.Position + new Vector2(0, -25); // Falta Ajustar
-        AddChild(damageLabel);
-
-        
-        var tween = GetTree().CreateTween();
-        tween.TweenProperty(damageLabel, "position", damageLabel.Position + new Vector2(0, -50), 1.0f)
-            .SetTrans(Tween.TransitionType.Sine)
-            .SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(damageLabel, "modulate", new Color(1, 0, 0, 0), 1.0f); // "Eliminar" texto
-        tween.TweenCallback(Callable.From(() => damageLabel.QueueFree())); // Liberar el nodo al terminar
+        FleeCombat();
     }
+    
 }
+

@@ -41,6 +41,7 @@ animations = [{
 script = ExtResource("1_jo5co")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("7_stk62")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -56,10 +56,11 @@ animations = [{
 script = ExtResource("1_pt84v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 z_index = 1
 texture = SubResource("AtlasTexture_xhlwj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_8fhbc")
-animation = &"IdleCombat"
+animation = &"DownwardSlash"

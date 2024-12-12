@@ -1,14 +1,70 @@
-[gd_scene load_steps=4 format=3 uid="uid://h7gyty17183o"]
+[gd_scene load_steps=12 format=3 uid="uid://h7gyty17183o"]
 
 [ext_resource type="Script" path="res://Node2dTweenPrueba.cs" id="1_wffe6"]
-[ext_resource type="Texture2D" uid="uid://ynxhus65r6dp" path="res://assets/avlora/Avlora.png" id="2_v32hk"]
+[ext_resource type="Texture2D" uid="uid://eqksfnymo0vm" path="res://assets/avlora/DownwardSlash1.tres" id="2_t0j5r"]
+[ext_resource type="Texture2D" uid="uid://c6rek3m4spye" path="res://assets/avlora/DownwardSlash2.tres" id="3_ltqrs"]
+[ext_resource type="Texture2D" uid="uid://dcda7q0bgk8pu" path="res://assets/avlora/DownwardSlash3.tres" id="4_cc53n"]
+[ext_resource type="Texture2D" uid="uid://cjc30k5hncltw" path="res://assets/avlora/DownwardSlash4.tres" id="5_i64f8"]
+[ext_resource type="Texture2D" uid="uid://cmyhwa0ud0ill" path="res://assets/avlora/DownwardSlash5.tres" id="6_dr5q2"]
+[ext_resource type="Texture2D" uid="uid://80ixivf2j7ck" path="res://assets/avlora/DownwardSlash6.tres" id="7_6lh5r"]
+[ext_resource type="Texture2D" uid="uid://cg3m5kgv7comm" path="res://assets/avlora/DownwardSlash7.tres" id="8_n3j7w"]
+[ext_resource type="Texture2D" uid="uid://c1vqw1keuso8w" path="res://assets/avlora/IdleLeft.tres" id="9_aj1a1"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xtssw"]
-atlas = ExtResource("2_v32hk")
-region = Rect2(4, 4, 20, 37)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltg4h"]
+atlas = ExtResource("9_aj1a1")
+region = Rect2(0, 0, 20, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ud57"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_t0j5r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ltqrs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cc53n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_i64f8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_dr5q2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6lh5r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_n3j7w")
+}],
+"loop": true,
+"name": &"DownwardSlash",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltg4h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(293, 130)
 script = ExtResource("1_wffe6")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_xtssw")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(5, -2)
+sprite_frames = SubResource("SpriteFrames_0ud57")
+animation = &"DownwardSlash"
+
+[node name="Button" type="Button" parent="."]
+offset_left = -128.0
+offset_top = 117.0
+offset_right = 193.0
+offset_bottom = 170.0
+text = "BOTON UQE SIL O PULSAS PASAN COSAS"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
