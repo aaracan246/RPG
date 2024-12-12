@@ -169,11 +169,10 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip) // E
         attackButton.Text = $"Attack {member.PjName}";
         attackButton.Name = $"Button_{member.PjName}";
         vboxContainer.AddChild(attackButton);
-
-        // Conectar la señal del botón para atacar al personaje
+        
         attackButton.Pressed += () =>
         {
-            StartAttackAnimation(_playerParty.Members[_currentTurn], member);
+            StartAttackAnimation(_playerParty.Members[_currentTurn]);
         };
 
         var spriteNode = characterInstance.GetNodeOrNull<Sprite2D>("Sprite2D");
@@ -185,6 +184,17 @@ private void LoadTeam(Node2D container, List<Character> members, bool flip) // E
         else
         {
             spriteNode.FlipH = flip; // Flip según sea necesario
+        }
+        
+        var animatedSpriteNode = characterInstance.GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+        
+        if (animatedSpriteNode == null)
+        {
+            GD.PrintErr($"Could not find 'AnimatedSprite2D' node for {member.PjName}. Check the scene structure.");
+        }
+        else
+        {
+            animatedSpriteNode.FlipH = flip; // Flip según sea necesario
         }
     }
 }
@@ -200,11 +210,7 @@ private void TakeTurn()
         return;
     }
 
-    if (_currentState == BattleState.PlayerTurn)
-    {
-        ShowPlayerMenu();
-    }
-    else if (_currentState == BattleState.EnemyTurn)
+    if (_currentState == BattleState.EnemyTurn)
     {
         TakeEnemyTurn();
         
@@ -217,18 +223,7 @@ private void TakeTurn()
     }
 }
 
-    private void ShowPlayerMenu()
-    {
-        GD.Print("Choose an option:");
-        GD.Print("1. Attack");
-        GD.Print("2. Skill");
-        GD.Print("3. Guard");
-        GD.Print("4. Item");
-        GD.Print("5. Pass turn");
-
-        _currentState = BattleState.WaitingForInput;
-    }
-
+    
     private void TakeEnemyTurn()
     {
         GD.Print("Enemy is taking its turn...");
@@ -236,120 +231,49 @@ private void TakeTurn()
     
     // Funciones de combate:
     
-    public void _Process(float delta)
+    
+    public void ProcessTurn()
     {
-        if (_currentState == BattleState.WaitingForInput && Input.IsActionJustPressed("ui_accept"))
-        {
-            string input = Console.ReadLine();
-            HandlePlayerChoice(input);
-        }
+        GD.Print($"Processing turn for player {_currentTurn}");
+    
+        // Esperar a la entrada del jugador
+        ShowTargetButtons();
     }
-    private void HandlePlayerChoice(string choice)
+    
+    private void ShowTargetButtons()
     {
-        switch (choice)
-        {
-            case "1":
-                ChooseTargetAndAttack();
-                break;
-            case "2":
-                GD.Print("Skill functionality not implemented yet.");
-                break;
-            case "3":
-                GD.Print("Guarding...");
-                _playerParty.Members[_currentTurn].Defend();
-                EndTurn();
-                break;
-            case "4":
-                GD.Print("Item functionality not implemented yet.");
-                break;
-            case "5":
-                GD.Print("Skipping turn...");
-                EndTurn();
-                break;
-            default:
-                GD.Print("Invalid choice. Try again.");
-                break;
-        }
-    }
-    private void ChooseTargetAndAttack()
-    {
-        GD.Print("Choose a target:");
         for (int i = 0; i < _enemyParty.Members.Count; i++)
         {
-            var enemy = _enemyParty.Members[i];
-            GD.Print($"{i + 1}. {enemy.PjName} (HP: {enemy.CurrentHp}/{enemy.MaxHp})");
-        }
-
-        string input = Console.ReadLine();
-        if (int.TryParse(input, out int targetIndex) && targetIndex > 0 && targetIndex <= _enemyParty.Members.Count)
-        {
-            var target = _enemyParty.Members[targetIndex - 1];
-            StartAttackAnimation(_playerParty.Members[_currentTurn], target);
-        }
-        else
-        {
-            GD.Print("Invalid target. Try again.");
-            ChooseTargetAndAttack();
+            var button = GetNode<Button>($"TargetButton_Enemy{i+1}");
+            button.Visible = true; // Muestra el botón correspondiente
         }
     }
     
-    private void StartAttackAnimation(Character attacker, Character target)
+    private void HideTargetButtons()
     {
-        Vector2 attackerOriginalPosition = attacker.GlobalPosition;
-        Vector2 targetPosition = target.GlobalPosition;
-
-        // Nodo que queremos mover
-        var nodeToMove = attacker.GetNodeOrNull<Sprite2D>("Sprite2D");
-        if (nodeToMove == null)
+        for (int i = 0; i < _enemyParty.Members.Count; i++)
         {
-            GD.PrintErr("No se encontró AnimatedSprite2D en el personaje.");
-            return;
+            var button = GetNode<Button>($"TargetButton_Enemy{i+1}");
+            button.Visible = false; // Oculta el botón después de seleccionar
         }
-
-        nodeToMove.Position = targetPosition;
-        GD.Print("Nodo movido con éxito!");
-        // Crear el Tween
-        var tween = GetTree().CreateTween();
-
-        // Movimiento hacia el objetivo
-        tween.TweenProperty(nodeToMove, "position", targetPosition, 0.5f);
-            //.SetTrans(Tween.TransitionType.Sine)
-           // .SetEase(Tween.EaseType.InOut);
-
-        // Ejecutar ataque al llegar
-        tween.TweenCallback(Callable.From(() =>
-        {
-            var animatedSprite = attacker.GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-            if (animatedSprite != null)
-            {
-                animatedSprite.Play("DownwardSlash");
-            }
-            else
-            {
-                GD.PrintErr("No se encontró AnimatedSprite2D en el personaje.");
-            }
-
-            // Aplicar daño
-            int damage = attacker.CalculateDamage(target.Armor);
-            target.ReceiveDamage(damage);
-            GD.Print($"{attacker.Name} attacked {target.Name} for {damage} damage!");
-
-            if (!target.IsAlive)
-            {
-                GD.Print($"{target.Name} has been defeated!");
-                _enemyParty.RemoveMember(target); // Eliminar al enemigo derrotado
-            }
-        }));
-
-        // Regresar a la posición original
-        tween.TweenProperty(nodeToMove, "global_position", attackerOriginalPosition, 0.5f)
-            .SetTrans(Tween.TransitionType.Sine)
-            .SetEase(Tween.EaseType.InOut);
-
-        // Finalizar el turno después de completar el movimiento
-        tween.TweenCallback(Callable.From(() => EndTurn()));
     }
-    private void EndTurn()
+    
+    public void OnTargetButtonPressed(int enemyIndex)
+    {
+        HideTargetButtons(); // Oculta los botones tras la selección
+        var attacker = _playerParty.Members[_currentTurn];
+        var target = _enemyParty.Members[enemyIndex];
+        StartAttackAnimation(attacker);
+    }
+
+    public void StartAttackAnimation(Character attacker)
+    {
+        var sprite = attacker.GetNode<Sprite2D>("Sprite2D");
+        var tween = CreateTween();
+        tween.TweenProperty(sprite, "position", new Vector2(200, 200), 1.0f);
+    }
+
+        private void EndTurn()
     {
         if (_enemyParty.IsPartyAlive())
         {

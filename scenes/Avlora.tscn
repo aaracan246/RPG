@@ -52,12 +52,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Avlora" type="CharacterBody2D"]
+[node name="Avlora" type="Node2D"]
 script = ExtResource("1_pt84v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 texture = SubResource("AtlasTexture_xhlwj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_8fhbc")
 animation = &"IdleCombat"

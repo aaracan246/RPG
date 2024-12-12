@@ -39,12 +39,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Frederica" type="CharacterBody2D"]
+[node name="Frederica" type="Node2D"]
 script = ExtResource("1_re26w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("6_1w863")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_6j278")
 animation = &"CastSpell"
