@@ -51,3 +51,5 @@ texture = ExtResource("6_1w863")
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_6j278")
 animation = &"CastSpell"
+frame = 4
+frame_progress = 1.0

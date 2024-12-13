@@ -14941,5 +14941,5 @@ offset_right = 189.0
 offset_bottom = 310.0
 text = "    Flee    "
 
-[connection signal="pressed" from="Attack" to="." method="_on_StartAttackAnimation"]
+[connection signal="pressed" from="Attack" to="." method="_on_StartAttackAnimation_button"]
 [connection signal="pressed" from="Flee" to="." method="_on_flee_pressed"]

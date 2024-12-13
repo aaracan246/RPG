@@ -39,7 +39,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_tl570")
 }],
-"loop": true,
+"loop": false,
 "name": &"DownwardSlash",
 "speed": 5.0
 }, {

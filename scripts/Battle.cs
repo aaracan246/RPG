@@ -18,7 +18,7 @@ public partial class Battle : Node2D
     private Node2D _teamEnemyNode;
     
     private Random _random = new Random();
-    private int _chance = 100;   // % para huir de la pelea
+    private int _chance = 49;   // % para huir de la pelea
     
     private double _moveTimer = .4f;
     private double _moveTimerReset = .4f;
@@ -227,51 +227,76 @@ private void TakeTurn()
     }
     
     // Funciones de combate:
-    
-    
-    public void _on_StartAttackAnimation(Character attacker, double delta)
+
+
+    public override void _PhysicsProcess(double delta)
     {
-        // GD.Print("COMO UNA CASA");
-        // var sprite = attacker.GetNode<Sprite2D>("Sprite2D");
-        // var tween = CreateTween();
-        // tween.TweenProperty(sprite, "position", new Vector2(200, 0), 1.0f);
-        // attacker.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("DownwardSlash");
-        // GD.Print("COMO CAMARON");
-        
+        if (_moving)
+        {
+            _moveTimer -= delta;
+            if (_moveTimer <= 0)
+            {
+                _moving = false;
+                _moveTimer = _moveTimerReset;
+            }
+        }
+
+        if (_attacking)
+        {
+            _attackTimer -= delta;
+            if (_attackTimer <= 0)
+            {
+                _attacking = false;
+                _attackTimer = _attackTimerReset;
+            }
+        }
+    }
+
+    public void _on_StartAttackAnimation()
+    {
         var attackButton = GetNode<Button>("Attack"); // Botón ataque
 
 
         if (attackButton.IsPressed())
         {
-            _moving = true;
-            var sprite = GetNode<AnimatedSprite2D>("Sprite2D");
             var tween = CreateTween();
-            tween.TweenProperty(sprite, "position", new Vector2(200, 0), .4f);
-            if (_moving)
+            
+            var avlora = GetNode<Node2D>("TeamPlayer").GetNode<Node2D>("Avlora");
+            if (avlora != null)
             {
-				
-                _moveTimer -= delta;
-                if (_moveTimer <= 0)
-                {
-                    _moving = false;
-                    _moveTimer = _moveTimerReset;
-                }
-            }
-            _attacking = true;
-            if (_attacking)
-            {
-                var animatedSprite = GetNode<AnimatedSprite2D>("Sprite2D");
+                tween.TweenProperty(avlora, "position", new Vector2(200, 0), .8f);
+                var animatedSprite = avlora.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
                 animatedSprite.Play("DownwardSlash");
-                _attackTimer -= delta;
-                if (_attackTimer <= 0)
-                {
-                    _attacking = false;
-                    _attackTimer = _attackTimerReset;
-                }
+                tween.TweenProperty(avlora, "position", new Vector2(-200, 0), .8f);
             }
-            tween.TweenProperty(sprite, "position", new Vector2(-200, 0), 0.4f);
-			
+            
+            var gustadolph = GetNode<Node2D>("TeamPlayer").GetNode<Node2D>("Gustadolph");
+            if (gustadolph != null)
+            {
+                tween.TweenProperty(gustadolph, "position", new Vector2(200, 0), .8f);
+                var animatedSprite = gustadolph.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+                animatedSprite.Play("DownwardSlash");
+                tween.TweenProperty(gustadolph, "position", new Vector2(-200, 0), .8f);
+
+            }
+            
+            var frederica = GetNode<Node2D>("TeamPlayer").GetNode<Node2D>("Frederica");
+            if (frederica != null)
+            {
+                tween.TweenProperty(frederica, "position", new Vector2(200, 0), .8f);
+                var animatedSprite = frederica.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+                animatedSprite.Play("CastSpell");
+                tween.TweenProperty(frederica, "position", new Vector2(-200, 0), .8f);
+            }
         }
+    }
+
+    public void _on_StartAttackAnimation_button()
+    {
+        _moving = true;
+        _attacking = true;
+        
+        _on_StartAttackAnimation();
     }
 
     public void FleeCombat()
