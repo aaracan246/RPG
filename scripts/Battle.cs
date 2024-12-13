@@ -264,29 +264,32 @@ private void TakeTurn()
             var avlora = GetNode<Node2D>("TeamPlayer").GetNode<Node2D>("Avlora");
             if (avlora != null)
             {
-                tween.TweenProperty(avlora, "position", new Vector2(200, 0), .8f);
+                var avloraPos = avlora.Position;
+                tween.TweenProperty(avlora, "position", avloraPos + new Vector2(200, 0), .8f);
                 var animatedSprite = avlora.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
                 animatedSprite.Play("DownwardSlash");
-                tween.TweenProperty(avlora, "position", new Vector2(-200, 0), .8f);
+                tween.TweenProperty(avlora, "position", avloraPos, .8f);
             }
             
             var gustadolph = GetNode<Node2D>("TeamPlayer").GetNode<Node2D>("Gustadolph");
             if (gustadolph != null)
             {
-                tween.TweenProperty(gustadolph, "position", new Vector2(200, 0), .8f);
+                var gustadolphPos = gustadolph.Position;
+                tween.TweenProperty(gustadolph, "position", gustadolphPos + new Vector2(200, 0), .8f);
                 var animatedSprite = gustadolph.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
                 animatedSprite.Play("DownwardSlash");
-                tween.TweenProperty(gustadolph, "position", new Vector2(-200, 0), .8f);
+                tween.TweenProperty(gustadolph, "position", gustadolphPos, .8f);
 
             }
             
             var frederica = GetNode<Node2D>("TeamPlayer").GetNode<Node2D>("Frederica");
             if (frederica != null)
             {
-                tween.TweenProperty(frederica, "position", new Vector2(200, 0), .8f);
+                var fredericaPos = frederica.Position;
+                tween.TweenProperty(frederica, "position", fredericaPos + new Vector2(200, 0), .8f);
                 var animatedSprite = frederica.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
                 animatedSprite.Play("CastSpell");
-                tween.TweenProperty(frederica, "position", new Vector2(-200, 0), .8f);
+                tween.TweenProperty(frederica, "position", fredericaPos, .8f);
             }
         }
     }
